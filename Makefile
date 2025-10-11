@@ -6,7 +6,7 @@ SHELL := /bin/bash
 .PHONY: help deps
 
 help: ## Show this help
-	@awk 'BEGIN {FS = ":.*##"}; /^[a-zA-Z0-9_-]+:.*?##/ {printf "%-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"}; /^[A-Za-z0-9_-]+:.*##/ {printf "%-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 deps: ## Install common prerequisites (auto-detects apt or Homebrew)
 	@set -euo pipefail; \
@@ -14,7 +14,6 @@ deps: ## Install common prerequisites (auto-detects apt or Homebrew)
 	  echo "[deps] Using apt-get"; \
 	  sudo apt-get update; \
 	  sudo apt-get install -y zsh git fzf fd-find ripgrep bat tree zoxide python3 iproute2 p7zip-full unzip unrar ncompress stow; \
-	  # Normalize Debian/Ubuntu names (optional)
 	  if command -v batcat >/dev/null 2>&1; then sudo update-alternatives --install /usr/local/bin/bat bat /usr/bin/batcat 10; fi; \
 	  if command -v fdfind  >/dev/null 2>&1; then sudo update-alternatives --install /usr/local/bin/fd  fd  /usr/bin/fdfind 10; fi; \
 	elif command -v brew >/dev/null 2>&1; then \

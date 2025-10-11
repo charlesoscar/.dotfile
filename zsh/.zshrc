@@ -7,6 +7,9 @@ fi
 
 ##### POWERLEVEL10K INSTANT PROMPT (must be first) #############################
 # Duplicate instant prompt removed; top block already sources it.
+# If you still see warnings about console output during init, you can silence
+# them by uncommenting the next line. Prefer fixing the root cause first.
+# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 ##### SHELL BASICS #############################################################
 export EDITOR="code"
@@ -37,12 +40,20 @@ export PATH
 # Optionally dedupe PATH entries while preserving order
 typeset -U path
 
-##### COMPLETION (deferred until after plugins) ################################
-autoload -Uz compinit
+##### COMPLETION (init early to provide compdef) ###############################
+autoload -Uz compinit compaudit
 zmodload zsh/complist
 # fzf-tab works best without zsh's menucompletion. Disable it to let fzf capture
 # the completion list and UI rendering.
 unsetopt menucomplete
+
+# Run compinit early so that plugins calling `compdef` don't error out.
+# Keep it quiet if there are insecure dirs (they can be reviewed with `compaudit`).
+if compaudit_out=$(compaudit 2>/dev/null) && [[ -n $compaudit_out ]]; then
+  compinit -i -d ~/.zcompdump
+else
+  compinit -d ~/.zcompdump
+fi
 
 ##### SAFE CORE ALIASES ########################################################
 alias cp='cp -i'; alias mv='mv -i'; alias rm='rm -i'
@@ -101,7 +112,7 @@ unset _fd_bin
 if [[ -r /usr/share/fzf/shell/key-bindings.zsh ]]; then
   source /usr/share/fzf/shell/key-bindings.zsh
 elif command -v brew >/dev/null 2>&1; then
-  [[ -r "$(brew --prefix 2>/dev/null)/opt/fzf/shell/key-bindings.zsh" ]] && source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+  [[ -r "$(brew --prefix 2>/dev/null)/opt/fzf/shell/key-bindings.zsh" ]] && source "$(brew --prefix 2>/dev/null)/opt/fzf/shell/key-bindings.zsh"
 fi
 # Handy fuzzy helpers + keybindings
 ff() { local f; f=$(fzf) && ${EDITOR:-vi} "$f"; }
@@ -170,7 +181,7 @@ fi
 
 ##### ANTIDOTE (PLUGIN MANAGER) ################################################
 # Ensure Antidote exists
-[[ -f ~/.antidote/antidote.zsh ]] || git clone --depth=1 https://github.com/mattmc3/antidote ~/.antidote
+[[ -f ~/.antidote/antidote.zsh ]] || git clone --quiet --depth=1 https://github.com/mattmc3/antidote ~/.antidote >/dev/null 2>&1
 source ~/.antidote/antidote.zsh
 
 # Load plugins from ~/.zsh_plugins.txt (create it if missing)
@@ -194,11 +205,13 @@ fi
 antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 source ~/.zsh_plugins.zsh
 
-# Initialize completion after plugins are loaded (safer than compinit -u)
+# Re-initialize completion after plugins are loaded so their completion functions
+# are picked up in $fpath. Keep it quiet to avoid any console output during init.
 if compaudit_out=$(compaudit 2>/dev/null) && [[ -n $compaudit_out ]]; then
-  : # run `compaudit` manually if needed; using secure compinit by default
+  compinit -i -d ~/.zcompdump
+else
+  compinit -d ~/.zcompdump
 fi
-compinit -d ~/.zcompdump
 
 # fzf-tab tweaks (after compinit and plugin load)
 # Don't show zsh's own selection menu; let fzf-tab handle UI
