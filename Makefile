@@ -19,7 +19,7 @@ deps: ## Install common prerequisites (auto-detects apt or Homebrew)
 	elif command -v brew >/dev/null 2>&1; then \
 	  echo "[deps] Using Homebrew"; \
 	  brew update; \
-	  brew install zsh git fzf fd ripgrep bat tree zoxide python3 p7zip unzip unrar stow; \
+	  brew install zsh git fzf fd ripgrep bat tree zoxide python3 p7zip unzip unar stow; \
 	else \
 	  echo "Unsupported distro. Please install: zsh, git, fzf, fd/fdfind, ripgrep, bat, tree, zoxide, python3, archivers (7zip/unzip/unrar), and stow."; \
 	  exit 2; \

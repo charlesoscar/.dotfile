@@ -139,7 +139,16 @@ x() {
       *.tar.bz2) tar xjf "$1" ;;
       *.tar.gz) tar xzf "$1" ;;
       *.bz2) bunzip2 "$1" ;;
-      *.rar) unrar x "$1" ;;
+      *.rar)
+        if command -v unrar >/dev/null 2>&1; then
+          unrar x "$1"
+        elif command -v unar >/dev/null 2>&1; then
+          unar "$1"
+        else
+          echo "Install unrar or unar to extract .rar files"
+          return 1
+        fi
+        ;;
       *.gz) gunzip "$1" ;;
       *.tar) tar xf "$1" ;;
       *.tbz2) tar xjf "$1" ;;
