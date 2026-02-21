@@ -29,6 +29,16 @@ This setup uses a loader-only `~/.zshrc` and modular files under `~/.config/shel
 - No network access during shell startup.
 - No install or `git clone` actions during shell startup.
 - PATH is managed through zsh `path` array with de-duplication.
+- `~/.config/shell` is leaf-symlinked (via `--no-folding` in `.stowrc`), so other apps writing to `~/.config/` never touch the repo.
+
+## Install shell tools
+
+From the repo root, install all recommended CLI tools used by this zsh setup (fzf, fd/fdfind, ripgrep, bat, tree, zoxide, python3, archive tools, stow, etc.):
+
+```bash
+cd ~/.dotfile
+make deps
+```
 
 ## Bootstrap (run explicitly)
 
@@ -43,6 +53,29 @@ Bootstrap installs:
 - `~/.antidote` (if missing)
 - `~/.p10k` (if missing)
 - `~/.zsh_plugins.zsh` (bundled from `~/.zsh_plugins.txt`)
+
+## Set zsh as default shell (WSL)
+
+On new WSL environments, set zsh as the login shell:
+
+```bash
+chsh -s "$(which zsh)"
+```
+
+Then close all WSL sessions and start WSL again.
+
+Verify:
+
+```bash
+echo "$SHELL"
+echo "$0"
+```
+
+Fallback if `chsh` does not persist in your WSL distro:
+
+```bash
+grep -q 'exec zsh' ~/.profile || echo '[[ $- == *i* ]] && exec zsh' >> ~/.profile
+```
 
 ## Work toggle
 

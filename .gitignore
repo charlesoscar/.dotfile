@@ -1,1 +1,10 @@
+# Private local overrides
 zsh/.config/shell/local.zsh
+
+# Credentials and secrets (defensive — prevent accidental commits)
+**/.config/gh/
+**/hosts.yml
+**/*.token
+**/*secret*
+**/.ssh/
+**/.gnupg/

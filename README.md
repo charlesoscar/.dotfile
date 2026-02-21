@@ -32,6 +32,13 @@ Optional (make zsh your default login shell):
 chsh -s "$(which zsh)"
 ```
 
+From the repo root, you can also install all common shell tools (fzf, fd, rg, bat, zoxide, etc.) in one go:
+
+```bash
+cd ~/.dotfile
+make deps
+```
+
 ## Quick start
 Recommended location:
 ```bash
@@ -72,6 +79,20 @@ Each package folder mirrors your home directory structure. Examples:
 - `zsh/.config/shell` → `~/.config/shell`
 - `git/.gitconfig` → `~/.gitconfig`
 - `nvim/.config/nvim` → `~/.config/nvim`
+
+## Secrets hygiene
+
+This repo includes a `.stowrc` with `--no-folding`. This tells Stow to create real intermediate directories (like `~/.config/`) and only symlink leaf paths (like `~/.config/shell`). Without it, Stow may symlink `~/.config` itself into the repo, causing apps like `gh` to write credentials directly into the dotfiles tree.
+
+Defensive `.gitignore` patterns also block common secret paths (`~/.config/gh/`, `hosts.yml`, `*.token`, `.ssh/`, `.gnupg/`).
+
+If `~/.config` is already a symlink from a previous stow run, fix it:
+
+```bash
+stow -D zsh karabiner
+[ -L ~/.config ] && rm ~/.config && mkdir -p ~/.config
+stow -R zsh karabiner
+```
 
 ## Notes
 - If Stow reports conflicts, move or back up existing files in $HOME, then run Stow again.
