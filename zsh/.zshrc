@@ -34,3 +34,5 @@ unset -f _shell_source_if_exists
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # To customize prompt, run `p10k configure` or edit ~/.dotfile/zsh/.p10k.zsh.
+
+# opencode

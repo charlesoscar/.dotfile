@@ -32,7 +32,7 @@ Optional (make zsh your default login shell):
 chsh -s "$(which zsh)"
 ```
 
-From the repo root, you can also install all common shell tools (fzf, fd, rg, bat, zoxide, etc.) in one go:
+From the repo root, you can also install all common shell tools (fzf, fd, rg, bat, zoxide, opencode, etc.) in one go:
 
 ```bash
 cd ~/.dotfile
