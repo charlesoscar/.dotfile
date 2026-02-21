@@ -3,9 +3,9 @@
 set -euo pipefail
 
 ANTIDOTE_DIR="${HOME}/.antidote"
-P10K_DIR="${HOME}/.p10k"
+P10K_DIR="${HOME}/.p10k"        # Theme repo (directory)
 PLUGINS_TXT="${HOME}/.zsh_plugins.txt"
-PLUGINS_ZSH="${HOME}/.zsh_plugins.zsh"
+PLUGINS_ZSH="${HOME}.zsh_plugins.zsh"
 
 if [[ ! -f "${ANTIDOTE_DIR}/antidote.zsh" ]]; then
   git clone --quiet --depth=1 https://github.com/mattmc3/antidote "${ANTIDOTE_DIR}"

@@ -1,7 +1,6 @@
 typeset -U path PATH
-
-local -a _mac_paths
-_mac_paths=(
+  local -a _mac_paths
+  _mac_paths=(
   /opt/homebrew/bin
   /opt/homebrew/sbin
   /usr/local/bin
