@@ -80,11 +80,7 @@ Each package folder mirrors your home directory structure. Examples:
 - `git/.gitconfig` → `~/.gitconfig`
 - `nvim/.config/nvim` → `~/.config/nvim`
 
-## Secrets hygiene
 
-This repo includes a `.stowrc` with `--no-folding`. This tells Stow to create real intermediate directories (like `~/.config/`) and only symlink leaf paths (like `~/.config/shell`). Without it, Stow may symlink `~/.config` itself into the repo, causing apps like `gh` to write credentials directly into the dotfiles tree.
-
-Defensive `.gitignore` patterns also block common secret paths (`~/.config/gh/`, `hosts.yml`, `*.token`, `.ssh/`, `.gnupg/`).
 
 If `~/.config` is already a symlink from a previous stow run, fix it:
 

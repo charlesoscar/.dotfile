@@ -29,7 +29,6 @@ This setup uses a loader-only `~/.zshrc` and modular files under `~/.config/shel
 - No network access during shell startup.
 - No install or `git clone` actions during shell startup.
 - PATH is managed through zsh `path` array with de-duplication.
-- `~/.config/shell` is leaf-symlinked (via `--no-folding` in `.stowrc`), so other apps writing to `~/.config/` never touch the repo.
 
 ## Install shell tools
 

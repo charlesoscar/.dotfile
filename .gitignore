@@ -1,10 +1,9 @@
+# Ignore everything inside .config by default
+**/.config/**
+
+# ...except shell config we want tracked
+!**/.config/shell/
+!**/.config/shell/**
+
 # Private local overrides
 zsh/.config/shell/local.zsh
-
-# Credentials and secrets (defensive — prevent accidental commits)
-**/.config/gh/
-**/hosts.yml
-**/*.token
-**/*secret*
-**/.ssh/
-**/.gnupg/
