@@ -31,3 +31,6 @@ _shell_source_if_exists "$_shell_config_dir/local.zsh"
 
 unset _shell_config_dir
 unset -f _shell_source_if_exists
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
