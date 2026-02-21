@@ -6,11 +6,30 @@ This repository contains my development environment dotfiles. I manage them with
 ## Requirements
 - GNU Stow
 - git
+- zsh
 
 On Debian/Ubuntu:
 ```bash
 sudo apt update
-sudo apt install -y stow git
+sudo apt install -y stow git zsh
+```
+
+## WSL quick path (fresh instance)
+Run these in order:
+
+```bash
+sudo apt update
+sudo apt install -y stow git zsh
+git clone https://github.com/charlesoscar/.dotfile ~/.dotfile
+cd ~/.dotfile
+stow -R zsh
+~/.config/shell/bootstrap.sh
+exec zsh
+```
+
+Optional (make zsh your default login shell):
+```bash
+chsh -s "$(which zsh)"
 ```
 
 ## Quick start
@@ -25,6 +44,11 @@ Link one or more packages into your home directory:
 stow zsh
 # or multiple
 stow zsh git tmux nvim
+```
+
+Bootstrap shell plugins/theme explicitly (no network at zsh startup):
+```bash
+~/.config/shell/bootstrap.sh
 ```
 
 If your repo is not directly under $HOME, specify a target:
@@ -45,8 +69,10 @@ stow -R zsh git tmux nvim
 ## Layout
 Each package folder mirrors your home directory structure. Examples:
 - `zsh/.zshrc` → `~/.zshrc`
+- `zsh/.config/shell` → `~/.config/shell`
 - `git/.gitconfig` → `~/.gitconfig`
 - `nvim/.config/nvim` → `~/.config/nvim`
 
 ## Notes
 - If Stow reports conflicts, move or back up existing files in $HOME, then run Stow again.
+- Common conflicts on first setup: `~/.zshrc` and `~/.config/shell`.
